@@ -13,7 +13,7 @@
 import * as tf from "@tensorflow/tfjs";
 import * as tfvis from "@tensorflow/tfjs-vis";
 import * as echarts from "echarts";
-import echartOption from '../lineChart'
+import echartOption from '../../utils/genLineChart'
 export default {
   data() {
     return {

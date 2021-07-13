@@ -15,7 +15,7 @@
 import * as tf from "@tensorflow/tfjs";
 import * as tfvis from "@tensorflow/tfjs-vis";
 import * as echarts from "echarts";
-import echartOption from '../lineChart'
+import echartOption from '../../utils/genLineChart'
 export default {
   data() {
     return {
@@ -115,23 +115,20 @@ export default {
     },
 
     startTrain(closeData, smaData) {
-      const input_layer_shape = this.windowSize;
-      const input_layer_neurons = 50;
+      const inputLayerShape = this.windowSize;
+      const inputLayerNeurons = 50;
 
-      const rnn_input_layer_features = 10;
-      const rnn_input_layer_timesteps =
-        input_layer_neurons / rnn_input_layer_features;
-
-      const rnn_input_shape = [
-        rnn_input_layer_features,
-        rnn_input_layer_timesteps,
+      const rnnInputLayerFeatures = 10;
+      const rnnInputLayerTimesteps =
+        inputLayerNeurons / rnnInputLayerFeatures;
+      const rnnInputShape = [
+        rnnInputLayerFeatures,
+        rnnInputLayerTimesteps,
       ];
-      const rnn_output_neurons = 20;
-
-      const rnn_batch_size = this.windowSize;
-
-      const output_layer_shape = rnn_output_neurons;
-      const output_layer_neurons = 1;
+      const rnnOutputNeurons = 20;
+      const rnnBatchSize = this.windowSize;
+      const outputLayerShape = rnnOutputNeurons;
+      const outputLayerNeurons = 1;
 
       let X = smaData.slice(
         0,
@@ -151,29 +148,29 @@ export default {
 
       model.add(
         tf.layers.dense({
-          units: input_layer_neurons,
-          inputShape: [input_layer_shape],
+          units: inputLayerNeurons,
+          inputShape: [inputLayerShape],
         })
       );
-      model.add(tf.layers.reshape({ targetShape: rnn_input_shape }));
+      model.add(tf.layers.reshape({ targetShape: rnnInputShape }));
 
       let lstm_cells = [];
       for (let index = 0; index < this.nLayers; index++) {
-        lstm_cells.push(tf.layers.lstmCell({ units: rnn_output_neurons }));
+        lstm_cells.push(tf.layers.lstmCell({ units: rnnOutputNeurons }));
       }
 
       model.add(
         tf.layers.rnn({
           cell: lstm_cells,
-          inputShape: rnn_input_shape,
+          inputShape: rnnInputShape,
           returnSequences: false,
         })
       );
 
       model.add(
         tf.layers.dense({
-          units: output_layer_neurons,
-          inputShape: [output_layer_shape],
+          units: outputLayerNeurons,
+          inputShape: [outputLayerShape],
         })
       );
 
@@ -184,7 +181,7 @@ export default {
 
       model
         .fit(xs, ys, {
-          batchSize: rnn_batch_size,
+          batchSize: rnnBatchSize,
           epochs: this.nEpochs,
           callbacks: tfvis.show.fitCallbacks({ name: "训练过程" }, ["loss"]),
         })
