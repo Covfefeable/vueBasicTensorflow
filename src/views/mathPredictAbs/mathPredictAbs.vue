@@ -22,6 +22,7 @@ const d = tf.variable(tf.scalar(Math.random()));
 import * as tf from "@tensorflow/tfjs";
 import * as tfvis from "@tensorflow/tfjs-vis";
 import * as echarts from "echarts";
+import echartOption from '../lineChart'
 export default {
   data() {
     return {
@@ -134,174 +135,19 @@ export default {
         return;
       }
       // 绘制图表
-      let colors = ["#5470C6", "#EE6666"];
-      myChart.setOption({
-        color: colors,
-
-        tooltip: {
-          trigger: "none",
-          axisPointer: {
-            type: "cross",
-          },
-        },
-        legend: {
-          data: ["损失"],
-        },
-        grid: {
-          top: 50,
-          bottom: 40,
-          left: 60,
-        },
-        xAxis: [
-          {
-            type: "category",
-            axisTick: {
-              alignWithLabel: true,
-            },
-            axisLine: {
-              onZero: false,
-              lineStyle: {
-                color: colors[1],
-              },
-            },
-            axisPointer: {
-              label: {
-                formatter: function (params) {
-                  return (
-                    "损失  " +
-                    params.value +
-                    (params.seriesData.length
-                      ? "：" + params.seriesData[0].data
-                      : "")
-                  );
-                },
-              },
-            },
-            data: [...lossX],
-          },
-        ],
-        yAxis: [
-          {
-            type: "value",
-          },
-        ],
-        series: [
-          {
-            name: "损失",
-            type: "line",
-            xAxisIndex: 0,
-            smooth: true,
-            emphasis: {
-              focus: "series",
-            },
-            data: [...this.lossData],
-          },
-        ],
-      });
+      let option = echartOption.initSingleLineChart(lossX, this.lossData, '损失 ')
+      myChart.setOption(option);
     },
 
     initPredictChart(xs, res, ys) {
       let myChart = echarts.init(document.getElementById("predict-chart"));
-      // 绘制图表
-      let colors = ["#5470C6", "#EE6666"];
-      myChart.setOption({
-        color: colors,
 
-        tooltip: {
-          trigger: "none",
-          axisPointer: {
-            type: "cross",
-          },
-        },
-        legend: {
-          data: ["实际值", "预测值"],
-        },
-        grid: {
-          top: 50,
-          bottom: 40,
-          left: 60,
-        },
-        xAxis: [
-          {
-            type: "category",
-            axisTick: {
-              alignWithLabel: true,
-            },
-            axisLine: {
-              onZero: false,
-              lineStyle: {
-                color: colors[1],
-              },
-            },
-            axisPointer: {
-              label: {
-                formatter: function (params) {
-                  return (
-                    "预测值  " +
-                    params.value +
-                    (params.seriesData.length
-                      ? "：" + params.seriesData[0].data
-                      : "")
-                  );
-                },
-              },
-            },
-            data: [...xs],
-          },
-          {
-            type: "category",
-            axisTick: {
-              alignWithLabel: true,
-            },
-            axisLine: {
-              onZero: false,
-              lineStyle: {
-                color: colors[0],
-              },
-            },
-            axisPointer: {
-              label: {
-                formatter: function (params) {
-                  return (
-                    "实际值  " +
-                    params.value +
-                    (params.seriesData.length
-                      ? "：" + params.seriesData[0].data
-                      : "")
-                  );
-                },
-              },
-            },
-            data: [...xs],
-          },
-        ],
-        yAxis: [
-          {
-            type: "value",
-          },
-        ],
-        series: [
-          {
-            name: "实际值",
-            type: "line",
-            xAxisIndex: 1,
-            smooth: true,
-            emphasis: {
-              focus: "series",
-            },
-            data: [...ys],
-          },
-          {
-            name: "预测值",
-            type: "line",
-            smooth: true,
-            emphasis: {
-              focus: "series",
-            },
-            data: [...res],
-          },
-        ],
-      });
+      // 绘制图表
+      let option = echartOption.initDuoLineChart(xs, ys, res, {
+        line_1: '预测值 ',
+        line_2: '实际值 ',
+      })
+      myChart.setOption(option);
     },
   },
 };

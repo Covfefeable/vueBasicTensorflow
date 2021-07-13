@@ -15,6 +15,7 @@
 import * as tf from "@tensorflow/tfjs";
 import * as tfvis from "@tensorflow/tfjs-vis";
 import * as echarts from "echarts";
+import echartOption from '../lineChart'
 export default {
   data() {
     return {
@@ -105,105 +106,12 @@ export default {
       // 绘制图表
       this.loading = false;
       this.showSecond = true;
-      let colors = ["#5470C6", "#EE6666"];
-      myChart.setOption({
-        color: colors,
 
-        tooltip: {
-          trigger: "none",
-          axisPointer: {
-            type: "cross",
-          },
-        },
-        legend: {
-          data: ["实际收盘价", "SMA收盘价"],
-        },
-        grid: {
-          top: 50,
-          bottom: 40,
-          left: 30,
-        },
-        xAxis: [
-          {
-            type: "category",
-            axisTick: {
-              alignWithLabel: true,
-            },
-            axisLine: {
-              onZero: false,
-              lineStyle: {
-                color: colors[1],
-              },
-            },
-            axisPointer: {
-              label: {
-                formatter: function (params) {
-                  return (
-                    "SMA收盘价  " +
-                    params.value +
-                    (params.seriesData.length
-                      ? "：" + params.seriesData[0].data
-                      : "")
-                  );
-                },
-              },
-            },
-            data: [...timeLine],
-          },
-          {
-            type: "category",
-            axisTick: {
-              alignWithLabel: true,
-            },
-            axisLine: {
-              onZero: false,
-              lineStyle: {
-                color: colors[0],
-              },
-            },
-            axisPointer: {
-              label: {
-                formatter: function (params) {
-                  return (
-                    "实际收盘价  " +
-                    params.value +
-                    (params.seriesData.length
-                      ? "：" + params.seriesData[0].data
-                      : "")
-                  );
-                },
-              },
-            },
-            data: [...timeLine],
-          },
-        ],
-        yAxis: [
-          {
-            type: "value",
-          },
-        ],
-        series: [
-          {
-            name: "实际收盘价",
-            type: "line",
-            xAxisIndex: 1,
-            smooth: true,
-            emphasis: {
-              focus: "series",
-            },
-            data: [...this.closeData],
-          },
-          {
-            name: "SMA收盘价",
-            type: "line",
-            smooth: true,
-            emphasis: {
-              focus: "series",
-            },
-            data: [...smaData],
-          },
-        ],
-      });
+      let option = echartOption.initDuoLineChart(timeLine, this.closeData, smaData, {
+        line_1: 'SMA收盘价 ',
+        line_2: '实际收盘价 ',
+      })
+      myChart.setOption(option);
     },
 
     startTrain(closeData, smaData) {
