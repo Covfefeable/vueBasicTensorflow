@@ -22,14 +22,14 @@ export default {
       loading: false,
       showSecond: false,
       stockName: "MSFT",
-      windowSize: 51,
+      windowSize: 51, // xx日均线
       trainingSize: 80,
       nLayers: 4,
       nEpochs: 20, // 20
       learningRate: 0.01,
 
-      closeData: [],
-      smaDetail: [],
+      closeData: [], // 收盘价数据
+      smaDetail: [], // 均线数据
     };
   },
   methods: {

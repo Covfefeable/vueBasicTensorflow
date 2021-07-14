@@ -116,7 +116,7 @@ export default {
         xs.unshift(0 - item);
       });
       oxs.shift();
-      // 生成一个带有负值的数组
+      // 生成一个带有对应负值的数组
       xs = [...xs, ...oxs];
       let ys = [];
       for (let i = 0; i < xs.length; i++) {
