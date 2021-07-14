@@ -1,5 +1,5 @@
 <template>
-  <h2>线性回归 - 一元一次方程 (y = 5x + 1)</h2>
+  <h2>线性回归 - 一次函数 (y = 5x + 1)</h2>
   <button style="margin-bottom: 10px" @click="initTrain()">开始训练</button>
   <div v-if="loading" class="loading"></div>
   <div
@@ -75,6 +75,7 @@ export default {
           const output = model.predict(tf.tensor([...pxs]));
           this.predictValue = output.dataSync();
           this.initChart(pxs, ys, this.predictValue);
+          model.save('localstorage://linear-function-model');
           this.loading = false;
         });
     },
