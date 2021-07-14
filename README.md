@@ -13,4 +13,4 @@ npm run dev
 # todo:
 
 #### ~~1.echarts code was scattered all over the projects, extract them into a public js file~~
-#### 2.tensorflow related code should be standardized, by using ops instead of advanced apis
+#### 2.tensorflow-related code should be standardized, by using ops instead of advanced apis
