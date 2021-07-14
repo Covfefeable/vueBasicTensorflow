@@ -13,7 +13,8 @@
 import * as tf from "@tensorflow/tfjs";
 import * as tfvis from "@tensorflow/tfjs-vis";
 import * as echarts from "echarts";
-import echartOption from '../../utils/genLineChart'
+import echartOption from '../../utils/genLineChart';
+import genData from '../../utils/genData';
 export default {
   data() {
     return {
@@ -31,18 +32,15 @@ export default {
   methods: {
     initTrain() {
       this.loading = true;
-      let xs = [];
-      let ys = [];
-      let pxs = [];
-
-      for (let i = 0; i < 30; i++) {
-        xs.push(i);
-        ys.push(i * 5 + 1);
-      }
-
-      for (let i = 0; i < 50; i++) {
-        pxs.push(i);
-      }
+      let data = genData.genLinearData(50, {
+        a: 5,
+        b: 1,
+        noise: true,
+        noiseLevel: 50
+      });
+      let xs = data[0];
+      let ys = data[1];
+      let pxs = Array.from(Array(50), (v, k) => k);
 
       this.startTrain(xs, ys, pxs);
     },

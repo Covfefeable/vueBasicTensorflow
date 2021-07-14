@@ -18,6 +18,11 @@ const routes = [
         component: () => import("../views/mathPredictAbs/mathPredictAbs.vue")
     },
     {
+        path: "/mathPredictSin",
+        name: "mathPredictSin",
+        component: () => import("../views/mathPredictSin/mathPredictSin.vue")
+    },
+    {
         path: "/stockPredict",
         name: "stockPredict",
         component: () => import("../views/mathPredictCurve/stockPredict.vue")

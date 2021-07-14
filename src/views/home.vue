@@ -5,8 +5,11 @@
   <ul @click="redirect('mathPredictAbs')">
     2.多项式回归 - 通过ops拟合三次函数图像
   </ul>
+  <ul @click="redirect('mathPredictSin')">
+    2.多项式回归 - 通过ops拟合正弦函数图像
+  </ul>
   <ul @click="redirect('stockPredict')">
-    3.RNN时间序列处理 - 股票预测
+    4.RNN时间序列处理 - 股票预测
   </ul>
 </template>
 

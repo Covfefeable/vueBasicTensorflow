@@ -22,7 +22,8 @@ const d = tf.variable(tf.scalar(Math.random()));
 import * as tf from "@tensorflow/tfjs";
 import * as tfvis from "@tensorflow/tfjs-vis";
 import * as echarts from "echarts";
-import echartOption from '../../utils/genLineChart'
+import echartOption from '../../utils/genLineChart';
+import genData from '../../utils/genData';
 export default {
   data() {
     return {
@@ -33,6 +34,10 @@ export default {
       config: {
         learnRate: 0.3, // 学习率，太高容易错过极值点，太低学的慢，效率低
         nEpochs: 500, // 迭代次数
+        a: 5,
+        b: 4,
+        c: 3,
+        d: 2,
       },
     };
   },
@@ -40,14 +45,23 @@ export default {
 
   methods: {
     initTrain() {
-      let xs = [];
-      let ys = [];
-
       // 初始化用于训练的数据
-      for (let i = 0; i < 30; i++) {
-        xs.push(i);
-        ys.push(5 * i ** 3 + 4 * (i * i) + 3 * i + 2);
-      }
+      let data = genData.genPow3Data(30, {
+        a: this.config.a,
+        b: this.config.b,
+        c: this.config.c,
+        d: this.config.d,
+        noise: true,
+        noiseLevel: 10000
+      });
+      let xs = data[0];
+      let ys = data[1];
+
+      // 可视化训练过程
+      tfvis.render.scatterplot(
+        { name: "三次函数训练集" },
+        { values: xs.map((x, i) => ({ x, y: ys[i] })) }
+      );
 
       this.showLoss = true;
       this.$nextTick(() => {
@@ -56,13 +70,6 @@ export default {
     },
 
     startTrain(xs, ys) {
-      // 可视化训练过程
-      tfvis.render.scatterplot(
-        { name: "多项式回归训练集" },
-        { values: xs.map((x, i) => ({ x, y: ys[i] })) }
-        // { xAxisDomain: [0, 10], yAxisDomain: [0, 10] }
-      );
-
       const xst = tf.tensor(xs, [xs.length, 1]);
       const yst = tf.tensor(ys, [ys.length, 1]);
 
@@ -120,7 +127,7 @@ export default {
       xs = [...xs, ...oxs];
       let ys = [];
       for (let i = 0; i < xs.length; i++) {
-        ys.push(5 * xs[i] ** 3 + 4 * (xs[i] * xs[i]) + 3 * xs[i] + 2);
+        ys.push(this.config.a * xs[i] ** 3 + this.config.b * (xs[i] * xs[i]) + this.config.c * xs[i] + this.config.d);
       }
       let res = this.equation(tf.tensor(xs, [xs.length, 1])).dataSync();
       this.initPredictChart(xs, res, ys);
