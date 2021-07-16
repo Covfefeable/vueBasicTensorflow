@@ -8,9 +8,9 @@ const routes = [
         component: () => import("../views/home.vue")
     },
     {
-        path: "/mathPredict",
-        name: "mathPredict",
-        component: () => import("../views/mathPredict/mathPredict.vue")
+        path: "/mathPredictLinear",
+        name: "mathPredictLinear",
+        component: () => import("../views/mathPredictLinear/mathPredictLinear.vue")
     },
     {
         path: "/mathPredictAbs",
@@ -23,9 +23,9 @@ const routes = [
         component: () => import("../views/mathPredictSin/mathPredictSin.vue")
     },
     {
-        path: "/stockPredict",
-        name: "stockPredict",
-        component: () => import("../views/mathPredictCurve/stockPredict.vue")
+        path: "/PredictStockCurve",
+        name: "PredictStockCurve",
+        component: () => import("../views/PredictStockCurve/PredictStockCurve.vue")
     },
 ]
 

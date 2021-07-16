@@ -1,5 +1,5 @@
 <template>
-  <h2>多项式回归 - 三次函数 ( y = 5x^3 + 4x^2 + 3*x + 2）</h2>
+  <h2>多项式回归 - 三次函数 (y = 5x^3 + 4x^2 + 3*x + 2）</h2>
   <button style="margin-bottom: 10px" @click="initTrain">开始训练</button>
   <div v-if="showLoss">
     <h3>1）损失程度 - 当前训练进度 {{ lossProcess }}</h3>
@@ -33,7 +33,7 @@ export default {
       lossData: [],
       config: {
         learnRate: 0.3, // 学习率，太高容易错过极值点，太低学的慢，效率低
-        nEpochs: 500, // 迭代次数
+        numIterations: 500, // 迭代次数
         a: 5,
         b: 4,
         c: 3,
@@ -73,7 +73,7 @@ export default {
       const xst = tf.tensor(xs, [xs.length, 1]);
       const yst = tf.tensor(ys, [ys.length, 1]);
 
-      const numIterations = this.config.nEpochs;
+      const numIterations = this.config.numIterations;
       const learnRate = this.config.learnRate;
       this.optimizer = tf.train.adam(learnRate);
       this.train(xst, yst, numIterations);
@@ -159,34 +159,3 @@ export default {
   },
 };
 </script>
-<style scoped>
-.loading {
-  width: 75vw;
-  height: 400px;
-  overflow-y: hidden;
-  text-align: center;
-  background: linear-gradient(
-    -45deg,
-    #6cbaa1,
-    #697eff,
-    #00b4db,
-    #0083b0,
-    #3e5ade
-  );
-  background-size: 400%;
-  animation: Gradient 10s ease infinite;
-  -webkit-animation: Gradient 10s ease infinite;
-}
-
-@keyframes Gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-</style>

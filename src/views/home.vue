@@ -1,5 +1,5 @@
 <template>
-  <ul @click="redirect('mathPredict')">
+  <ul @click="redirect('mathPredictLinear')">
     1.线性回归 - 通过高级API拟合一次函数图像
   </ul>
   <ul @click="redirect('mathPredictAbs')">
@@ -8,7 +8,7 @@
   <ul @click="redirect('mathPredictSin')">
     2.多项式回归 - 通过ops拟合正弦函数图像
   </ul>
-  <ul @click="redirect('stockPredict')">
+  <ul @click="redirect('PredictStockCurve')">
     4.RNN时间序列处理 - 股票预测
   </ul>
 </template>
