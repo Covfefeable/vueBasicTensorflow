@@ -11,7 +11,9 @@
     3.Core API - 拟合正弦函数图像
   </ul>
   <ul @click="redirect('mathPredictSinAbs')">
-    4.Core API - <h3 style="display: inline">类</h3> 贝塞尔函数
+    4.Core API -
+    <h3 style="display: inline">类</h3>
+    贝塞尔函数
   </ul>
   <ul @click="redirect('PredictStockCurve')">
     5.Layers API - RNN时间序列处理（股票预测）
@@ -24,17 +26,20 @@ export default {
     return {};
   },
   methods: {
-    redirect(page){
+    redirect(page) {
       this.$router.push({
-        name: page
-      })
-    }
-  }
+        name: page,
+      });
+    },
+  },
 };
 </script>
 
 <style scoped>
 ul {
   cursor: pointer;
+}
+li {
+  padding-top: 10px;
 }
 </style>
