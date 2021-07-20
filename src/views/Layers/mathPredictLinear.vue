@@ -1,5 +1,5 @@
 <template>
-  <h2>线性回归 - 一次函数 (y = 5x + 1)</h2>
+  <h2>拟合一次函数 (y = 5x + 1)</h2>
   <button style="margin-bottom: 10px" @click="initTrain()">开始训练</button>
   <div v-if="loading" class="loading"></div>
   <div

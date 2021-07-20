@@ -1,5 +1,5 @@
 <template>
-  <h2>多项式回归 - 正弦函数 (y = 5 * sin(x) + 1）</h2>
+  <h2>拟合正弦函数 (y = 5 * sin(x) + 1）</h2>
   <button style="margin-bottom: 10px" @click="initTrain">开始训练</button>
   <div v-if="showLoss">
     <h3>1）损失程度 - 当前训练进度 {{ lossProcess }}</h3>

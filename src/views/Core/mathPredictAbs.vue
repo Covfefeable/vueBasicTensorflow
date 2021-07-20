@@ -1,5 +1,5 @@
 <template>
-  <h2>多项式回归 - 三次函数 (y = 5x^3 + 4x^2 + 3*x + 2）</h2>
+  <h2>拟合三次函数 (y = 5x^3 + 4x^2 + 3*x + 2）</h2>
   <button style="margin-bottom: 10px" @click="initTrain">开始训练</button>
   <div v-if="showLoss">
     <h3>1）损失程度 - 当前训练进度 {{ lossProcess }}</h3>
