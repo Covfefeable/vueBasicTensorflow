@@ -10,27 +10,27 @@ const routes = [
     {
         path: "/mathPredictLinear",
         name: "mathPredictLinear",
-        component: () => import("../views/mathPredictLinear/mathPredictLinear.vue")
+        component: () => import("../views/Layers/mathPredictLinear.vue")
     },
     {
         path: "/mathPredictAbs",
         name: "mathPredictAbs",
-        component: () => import("../views/mathPredictAbs/mathPredictAbs.vue")
+        component: () => import("../views/Core/mathPredictAbs.vue")
     },
     {
         path: "/mathPredictSin",
         name: "mathPredictSin",
-        component: () => import("../views/mathPredictSin/mathPredictSin.vue")
+        component: () => import("../views/Core/mathPredictSin.vue")
     },
     {
         path: "/mathPredictSinAbs",
         name: "mathPredictSinAbs",
-        component: () => import("../views/mathPredictSin/mathPredictSinAbs.vue")
+        component: () => import("../views/Core/mathPredictSinAbs.vue")
     },
     {
         path: "/PredictStockCurve",
         name: "PredictStockCurve",
-        component: () => import("../views/PredictStockCurve/PredictStockCurve.vue")
+        component: () => import("../views/Layers/PredictStockCurve.vue")
     },
 ]
 
