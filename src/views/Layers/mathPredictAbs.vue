@@ -1,5 +1,5 @@
 <template>
-  <h2>拟合一次函数 (y = 5x + 1)</h2>
+  <h2>拟合三次函数 (y = 5x^3 + 4x^2 + 3*x + 2）</h2>
   <button style="margin-bottom: 10px" @click="initTrain()">开始训练</button>
   <div v-if="loading" class="loading"></div>
   <div
@@ -21,9 +21,9 @@ export default {
       loading: false,
       predictValue: "预测中",
       config: {
-        learningRate: 0.001, // 学习率
+        learningRate: 0.1, // 学习率
         batchSize: 50,
-        epochs: 100,
+        epochs: 200,
       },
     };
   },
@@ -32,11 +32,13 @@ export default {
   methods: {
     initTrain() {
       this.loading = true;
-      let data = genData.genLinearData(50, {
+      let data = genData.genPow3Data(50, {
         a: 5,
-        b: 1,
+        b: 4,
+        c: 3,
+        d: 2,
         noise: true,
-        noiseLevel: 50
+        noiseLevel: 10000
       });
       let xs = data[0];
       let ys = data[1];
@@ -55,13 +57,20 @@ export default {
       const model = tf.sequential();
       // 添加dense层
       model.add(tf.layers.dense({ units: 1, inputShape: [1] }));
+
+      for(let i = 0; i < 6; i ++){
+        model.add(tf.layers.dense({ units: 50, activation: 'relu'}))
+      }
+
+      model.add(tf.layers.dense({units: 1}))
+
       model.compile({
         loss: tf.losses.meanSquaredError,
-        optimizer: tf.train.sgd(this.config.learningRate),
+        optimizer: tf.train.adam(this.config.learningRate),
       });
 
-      const inputs = tf.tensor(xs);
-      const labels = tf.tensor(ys);
+      const inputs = tf.tensor2d(xs, [xs.length, 1]);
+      const labels = tf.tensor2d(ys, [ys.length, 1]);
       // 拟合,包含超参数，需要自己调
       model
         .fit(inputs, labels, {

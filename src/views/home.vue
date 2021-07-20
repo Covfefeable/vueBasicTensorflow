@@ -2,8 +2,10 @@
   <ul @click="redirect('mathPredictLinear')">
     1.Layers API - 拟合一次函数图像
   </ul>
-  <ul @click="redirect('mathPredictAbs')">
-    2.Core API - 拟合三次函数图像
+  <ul>
+    <span>2.拟合三次函数图像</span>
+    <li @click="redirect('mathPredictAbs')">Core API</li>
+    <li @click="redirect('mathPredictAbs_Layers')">Layers API</li>
   </ul>
   <ul @click="redirect('mathPredictSin')">
     3.Core API - 拟合正弦函数图像
