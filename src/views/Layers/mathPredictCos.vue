@@ -34,16 +34,16 @@ export default {
   methods: {
     initTrain() {
       this.loading = true;
-      let data = genData.genCosData(180, {
+      let data = genData.genCosData(100, {
         a: this.config.a,
         b: this.config.b,
-        interval: 1,
+        interval: 10,
         noise: false,
         noiseLevel: 0.1,
       });
       let xs = data[0];
       let ys = data[1];
-      let pxs = Array.from(Array(180), (v, k) => k);
+      let pxs = Array.from(Array(100), (v, k) => k * 10);
 
       this.startTrain(xs, ys, pxs);
     },
