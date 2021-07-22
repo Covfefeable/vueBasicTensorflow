@@ -23,6 +23,11 @@ const routes = [
         component: () => import("../views/Layers/mathPredictAbs.vue")
     },
     {
+        path: "/mathPredictCos",
+        name: "mathPredictCos",
+        component: () => import("../views/Layers/mathPredictCos.vue")
+    },
+    {
         path: "/mathPredictSin",
         name: "mathPredictSin",
         component: () => import("../views/Core/mathPredictSin.vue")

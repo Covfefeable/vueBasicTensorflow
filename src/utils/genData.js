@@ -41,6 +41,16 @@ export default {
         return [[...x], [...y]];
     },
 
+    genCosData(length, config) {
+        if(!length) {
+            length = 50;
+        }
+
+        let x = Array.from(Array(length), (v, k) => k * config.interval);
+        let y = Array.from(Array(length), (v, k) => config.a * Math.cos(k * config.interval * (2 * Math.PI / 360)) + config.b + (config.noise ? Math.floor(Math.random() * (2 * config.noiseLevel) + 1 - config.noiseLevel) : 0));
+        return [[...x], [...y]];
+    },
+
     genSinAbsData(length, config) {
         if(!length) {
             length = 50;

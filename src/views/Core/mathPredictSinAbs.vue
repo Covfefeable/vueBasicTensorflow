@@ -1,5 +1,5 @@
 <template>
-  <h2>拟合类bazier函数</h2>
+  <h2>拟合类bezier函数</h2>
   <button style="margin-bottom: 10px" @click="initTrain">开始训练</button>
   <div v-if="showLoss">
     <h3>1）损失程度 - 当前训练进度 {{ lossProcess }}</h3>

@@ -1,5 +1,5 @@
 <template>
-  <h2>拟合三次函数 (y = 5x^3 + 4x^2 + 3*x + 2）</h2>
+  <h2>拟合余弦函数 y = cos(x)</h2>
   <button style="margin-bottom: 10px" @click="initTrain()">开始训练</button>
   <div v-if="loading" class="loading"></div>
   <div
@@ -13,8 +13,8 @@
 import * as tf from "@tensorflow/tfjs";
 import * as tfvis from "@tensorflow/tfjs-vis";
 import * as echarts from "echarts";
-import echartOption from '../../utils/genLineChart';
-import genData from '../../utils/genData';
+import echartOption from "../../utils/genLineChart";
+import genData from "../../utils/genData";
 export default {
   data() {
     return {
@@ -22,8 +22,10 @@ export default {
       predictValue: "预测中",
       config: {
         learningRate: 0.1, // 学习率
-        batchSize: 50,
+        batchSize: 100,
         epochs: 200,
+        a: 1,
+        b: 0,
       },
     };
   },
@@ -32,17 +34,16 @@ export default {
   methods: {
     initTrain() {
       this.loading = true;
-      let data = genData.genPow3Data(50, {
-        a: 5,
-        b: 4,
-        c: 3,
-        d: 2,
-        noise: true,
-        noiseLevel: 10000
+      let data = genData.genCosData(180, {
+        a: this.config.a,
+        b: this.config.b,
+        interval: 1,
+        noise: false,
+        noiseLevel: 0.1,
       });
       let xs = data[0];
       let ys = data[1];
-      let pxs = Array.from(Array(50), (v, k) => k);
+      let pxs = Array.from(Array(180), (v, k) => k);
 
       this.startTrain(xs, ys, pxs);
     },
@@ -55,15 +56,35 @@ export default {
       );
 
       const model = tf.sequential();
-      // 添加dense层
-      model.add(tf.layers.dense({ units: 1, inputShape: [1] }));
-
-      for(let i = 0; i < 6; i ++){
-        model.add(tf.layers.dense({ units: 50, activation: 'relu'}))
-      }
-
-      model.add(tf.layers.dense({units: 1}))
-
+      model.add(tf.layers.dense({
+        name: "input",
+        units: 1,
+        inputShape: [1]
+      }));
+      model.add(tf.layers.dense({
+        name: "learning_stack_1",
+        activation: "tanh",
+        kernelInitializer: "randomNormal",
+        units: 15
+      }));
+      model.add(tf.layers.dense({
+        name: "learning_stack_2",
+        activation: "tanh",
+        kernelInitializer: "randomNormal",
+        units: 15
+      }));
+      model.add(tf.layers.dense({
+        name: "learning_stack_3",
+        activation: "tanh",
+        kernelInitializer: "randomNormal",
+        units: 15
+      }));
+      model.add(tf.layers.dense({
+        name: "outputter",
+        activation: "linear",
+        kernelInitializer: "randomNormal",
+        units: 1
+      }));
       model.compile({
         loss: tf.losses.meanSquaredError,
         optimizer: tf.train.adam(this.config.learningRate),
@@ -79,10 +100,10 @@ export default {
           callbacks: tfvis.show.fitCallbacks({ name: "训练过程" }, ["loss"]),
         })
         .then(() => {
-          const output = model.predict(tf.tensor([...pxs]));
+          const output = model.predict(tf.tensor2d(pxs, [pxs.length, 1]));
           this.predictValue = output.dataSync();
           this.initChart(pxs, ys, this.predictValue);
-          model.save('localstorage://abs-function-model');
+          model.save("localstorage://sin-function-model");
           this.loading = false;
         });
     },
@@ -97,9 +118,9 @@ export default {
       }
       // 绘制图表
       let option = echartOption.initDuoLineChart(xs, ys, pys, {
-        line_1: '预测值 ',
-        line_2: '实际值 ',
-      })
+        line_1: "预测值 ",
+        line_2: "实际值 ",
+      });
       myChart.setOption(option);
     },
   },
